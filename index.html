@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSON Tool Online</title>
+  <meta name="description" content="Format, minify, validate, and explore JSON with a clean, modern interface. Free, private, runs entirely in your browser." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Ctext x='16' y='22' font-size='16' text-anchor='middle' fill='white' font-family='system-ui'%3E%7B%7D%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --color-blue: #2563eb;
+      --color-blue-light: #3b82f6;
+      --color-blue-dark: #1d4ed8;
+      --color-blue-50: #eff6ff;
+      --color-blue-100: #dbeafe;
+      --color-surface: #ffffff;
+      --color-surface-secondary: #f8faff;
+      --color-border: #e2e8f4;
+      --color-text-primary: #0f172a;
+      --color-text-secondary: #64748b;
+      --color-text-tertiary: #94a3b8;
+      --color-shadow: rgba(37, 99, 235, 0.03);
+      --color-bg: #ffffff;
+      --color-navbar-bg: rgba(255, 255, 255, 0.78);
+      --color-card-bg: #ffffff;
+    }
+
+    html.dark {
+      --color-blue: #60a5fa;
+      --color-blue-light: #93c5fd;
+      --color-blue-dark: #3b82f6;
+      --color-blue-50: #172554;
+      --color-blue-100: #1e3a5f;
+      --color-surface: #0f1729;
+      --color-surface-secondary: #162032;
+      --color-border: #1e3a5f;
+      --color-text-primary: #f1f5f9;
+      --color-text-secondary: #94a3b8;
+      --color-text-tertiary: #64748b;
+      --color-shadow: rgba(0, 0, 0, 0.25);
+      --color-bg: #0b1120;
+      --color-navbar-bg: rgba(11, 17, 32, 0.82);
+      --color-card-bg: #162032;
+    }
+
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', system-ui, sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    code, pre, .mono {
+      font-family: 'SF Mono', 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+    }
+
+    ::selection {
+      background: rgba(37, 99, 235, 0.28);
+      color: white;
+    }
+
+    html.dark ::selection {
+      background: rgba(96, 165, 250, 0.35);
+      color: white;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(37, 99, 235, 0.2);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(37, 99, 235, 0.35);
+    }
+    html.dark ::-webkit-scrollbar-thumb {
+      background: rgba(96, 165, 250, 0.25);
+    }
+
+
+    .ambient-glow {
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1000px;
+      height: 600px;
+      background: radial-gradient(ellipse at center, rgba(37, 99, 235, 0.10) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    html.dark .ambient-glow {
+      background: radial-gradient(ellipse at center, rgba(96, 165, 250, 0.08) 0%, transparent 70%);
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      height: 64px;
+      background: var(--color-navbar-bg);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-bottom: 1px solid var(--color-border);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card {
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 20px;
+      box-shadow: 0 1px 3px var(--color-shadow), 0 4px 16px var(--color-shadow);
+      transition: box-shadow 300ms ease, transform 300ms ease;
+    }
+    .card:hover {
+      box-shadow: 0 2px 8px var(--color-shadow), 0 8px 32px rgba(37, 99, 235, 0.04);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 200ms ease;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      color: var(--color-text-primary);
+    }
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px var(--color-shadow);
+    }
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+
+    .btn-primary {
+      background: var(--color-blue);
+      color: white;
+      border-color: var(--color-blue);
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+    }
+    .btn-primary:hover {
+      background: var(--color-blue-dark);
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+    }
+    html.dark .btn-primary {
+      box-shadow: 0 2px 8px rgba(96, 165, 250, 0.2);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: transparent;
+    }
+    .btn-ghost:hover {
+      background: var(--color-surface-secondary);
+    }
+
+    .tab-btn {
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      transition: color 200ms ease;
+    }
+    .tab-btn:hover {
+      color: var(--color-blue);
+    }
+    .tab-btn.active {
+      color: var(--color-blue);
+    }
+    .tab-btn.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 16px;
+      right: 16px;
+      height: 2px;
+      background: var(--color-blue);
+      border-radius: 1px;
+      box-shadow: 0 0 8px rgba(37, 99, 235, 0.3);
+    }
+
+    textarea.json-input {
+      width: 100%;
+      min-height: 320px;
+      padding: 16px;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      background: var(--color-surface-secondary);
+      color: var(--color-text-primary);
+      font-family: 'SF Mono', 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      resize: vertical;
+      outline: none;
+      transition: border-color 200ms ease, box-shadow 200ms ease;
+    }
+    textarea.json-input:focus {
+      border-color: var(--color-blue);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.10);
+    }
+    html.dark textarea.json-input:focus {
+      box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.12);
+    }
+
+
+    .json-output {
+      width: 100%;
+      min-height: 320px;
+      padding: 16px;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      background: var(--color-surface-secondary);
+      color: var(--color-text-primary);
+      font-family: 'SF Mono', 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .tree-node {
+      padding: 2px 0;
+      font-size: 13px;
+    }
+    .tree-key {
+      color: var(--color-blue);
+      font-weight: 500;
+    }
+    .tree-string { color: #059669; }
+    .tree-number { color: #d97706; }
+    .tree-boolean { color: #7c3aed; }
+    .tree-null { color: var(--color-text-tertiary); font-style: italic; }
+    html.dark .tree-string { color: #34d399; }
+    html.dark .tree-number { color: #fbbf24; }
+    html.dark .tree-boolean { color: #a78bfa; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 500;
+      border-radius: 6px;
+      background: var(--color-blue-50);
+      color: var(--color-blue);
+    }
+
+    .error-msg {
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #dc2626;
+      font-size: 13px;
+    }
+    html.dark .error-msg {
+      background: #1c1012;
+      border-color: #5c2020;
+      color: #fca5a5;
+    }
+
+    .success-msg {
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #16a34a;
+      font-size: 13px;
+    }
+    html.dark .success-msg {
+      background: #0b1f12;
+      border-color: #1a5c2c;
+      color: #6ee7b7;
+    }
+
+    .logo-glow {
+      filter: drop-shadow(0 0 12px rgba(37, 99, 235, 0.35));
+    }
+    html.dark .logo-glow {
+      filter: drop-shadow(0 0 12px rgba(96, 165, 250, 0.4));
+    }
+
+    .fade-in {
+      animation: fadeIn 300ms ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            blue: {
+              50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe',
+              300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6',
+              600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useCallback, useMemo, useEffect } = React;
+
+
+    // ─── Icons (inline SVG for no dependency) ───
+    const icons = {
+      sun: (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      ),
+      moon: (
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      ),
+      copy: (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+      ),
+      check: (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      ),
+      trash: (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+        </svg>
+      ),
+      download: (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      ),
+      upload: (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+      ),
+      chevronRight: (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      ),
+      chevronDown: (
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      ),
+    };
+
+
+    // ─── Utility Functions ───
+    function formatJSON(str, indent = 2) {
+      const parsed = JSON.parse(str);
+      return JSON.stringify(parsed, null, indent);
+    }
+
+    function minifyJSON(str) {
+      const parsed = JSON.parse(str);
+      return JSON.stringify(parsed);
+    }
+
+    function validateJSON(str) {
+      try {
+        JSON.parse(str);
+        return { valid: true, message: 'Valid JSON' };
+      } catch (e) {
+        return { valid: false, message: e.message };
+      }
+    }
+
+    function getJSONStats(str) {
+      try {
+        const parsed = JSON.parse(str);
+        const stats = { type: Array.isArray(parsed) ? 'Array' : typeof parsed };
+        if (typeof parsed === 'object' && parsed !== null) {
+          stats.keys = Object.keys(parsed).length;
+          stats.size = new Blob([str]).size;
+        }
+        return stats;
+      } catch {
+        return null;
+      }
+    }
+
+    function copyToClipboard(text) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text);
+      } else {
+        const el = document.createElement('textarea');
+        el.value = text;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+      }
+    }
+
+
+    // ─── Tree View Component ───
+    function TreeNode({ keyName, value, depth = 0 }) {
+      const [expanded, setExpanded] = useState(depth < 2);
+      const isObject = value !== null && typeof value === 'object';
+      const isArray = Array.isArray(value);
+
+      if (!isObject) {
+        let className = 'tree-null';
+        let display = 'null';
+        if (typeof value === 'string') { className = 'tree-string'; display = `"${value}"`; }
+        else if (typeof value === 'number') { className = 'tree-number'; display = String(value); }
+        else if (typeof value === 'boolean') { className = 'tree-boolean'; display = String(value); }
+
+        return (
+          <div className="tree-node mono" style={{ paddingLeft: depth * 20 }}>
+            {keyName !== null && <span className="tree-key">{keyName}: </span>}
+            <span className={className}>{display}</span>
+          </div>
+        );
+      }
+
+      const entries = isArray
+        ? value.map((v, i) => [i, v])
+        : Object.entries(value);
+      const bracket = isArray ? ['[', ']'] : ['{', '}'];
+
+      return (
+        <div style={{ paddingLeft: depth * 20 }}>
+          <div
+            className="tree-node mono cursor-pointer select-none flex items-center gap-1"
+            onClick={() => setExpanded(!expanded)}
+          >
+            <span style={{ opacity: 0.5, transition: 'transform 150ms', transform: expanded ? 'rotate(0)' : 'rotate(-90deg)' }}>
+              {icons.chevronDown}
+            </span>
+            {keyName !== null && <span className="tree-key">{keyName}: </span>}
+            <span style={{ color: 'var(--color-text-tertiary)' }}>
+              {bracket[0]} {!expanded && `... ${entries.length} items ${bracket[1]}`}
+            </span>
+          </div>
+          {expanded && (
+            <div>
+              {entries.map(([k, v]) => (
+                <TreeNode key={k} keyName={isArray ? k : `"${k}"`} value={v} depth={depth + 1} />
+              ))}
+              <div className="tree-node mono" style={{ paddingLeft: 20, color: 'var(--color-text-tertiary)' }}>
+                {bracket[1]}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+
+    // ─── JSON Diff Component ───
+    function JSONDiff({ left, right }) {
+      const diff = useMemo(() => {
+        try {
+          const l = JSON.parse(left);
+          const r = JSON.parse(right);
+          return computeDiff(l, r, '');
+        } catch {
+          return null;
+        }
+      }, [left, right]);
+
+      if (!diff) return <div className="error-msg">Please enter valid JSON in both fields to compare.</div>;
+      if (diff.length === 0) return <div className="success-msg">No differences found — both JSON values are identical.</div>;
+
+      return (
+        <div className="json-output" style={{ minHeight: 200 }}>
+          {diff.map((d, i) => (
+            <div key={i} style={{
+              padding: '4px 8px',
+              borderRadius: 6,
+              marginBottom: 4,
+              fontSize: 13,
+              background: d.type === 'added' ? 'rgba(34,197,94,0.08)' : d.type === 'removed' ? 'rgba(239,68,68,0.08)' : 'rgba(234,179,8,0.08)',
+              borderLeft: `3px solid ${d.type === 'added' ? '#22c55e' : d.type === 'removed' ? '#ef4444' : '#eab308'}`
+            }}>
+              <span className="mono" style={{ fontSize: 12 }}>
+                <span style={{ opacity: 0.6 }}>{d.path}</span>
+                {' — '}
+                <span style={{ fontWeight: 500 }}>
+                  {d.type === 'added' && `Added: ${JSON.stringify(d.value)}`}
+                  {d.type === 'removed' && `Removed: ${JSON.stringify(d.value)}`}
+                  {d.type === 'changed' && `Changed: ${JSON.stringify(d.oldValue)} → ${JSON.stringify(d.newValue)}`}
+                </span>
+              </span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    function computeDiff(left, right, path) {
+      const diffs = [];
+      if (typeof left !== typeof right || Array.isArray(left) !== Array.isArray(right)) {
+        diffs.push({ path: path || '(root)', type: 'changed', oldValue: left, newValue: right });
+        return diffs;
+      }
+      if (typeof left !== 'object' || left === null) {
+        if (left !== right) diffs.push({ path: path || '(root)', type: 'changed', oldValue: left, newValue: right });
+        return diffs;
+      }
+      const allKeys = new Set([...Object.keys(left), ...Object.keys(right)]);
+      for (const key of allKeys) {
+        const newPath = path ? `${path}.${key}` : key;
+        if (!(key in left)) { diffs.push({ path: newPath, type: 'added', value: right[key] }); }
+        else if (!(key in right)) { diffs.push({ path: newPath, type: 'removed', value: left[key] }); }
+        else { diffs.push(...computeDiff(left[key], right[key], newPath)); }
+      }
+      return diffs;
+    }
+
+
+    // ─── Main App Component ───
+    function App() {
+      const [dark, setDark] = useState(() => {
+        if (typeof window !== 'undefined') {
+          return localStorage.getItem('theme') === 'dark' ||
+            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        }
+        return false;
+      });
+      const [activeTab, setActiveTab] = useState('format');
+      const [input, setInput] = useState('');
+      const [output, setOutput] = useState('');
+      const [error, setError] = useState('');
+      const [success, setSuccess] = useState('');
+      const [copied, setCopied] = useState(false);
+      const [diffLeft, setDiffLeft] = useState('');
+      const [diffRight, setDiffRight] = useState('');
+      const [indentSize, setIndentSize] = useState(2);
+
+      useEffect(() => {
+        document.documentElement.classList.toggle('dark', dark);
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+      }, [dark]);
+
+      const tabs = [
+        { id: 'format', label: 'Format' },
+        { id: 'minify', label: 'Minify' },
+        { id: 'validate', label: 'Validate' },
+        { id: 'tree', label: 'Tree View' },
+        { id: 'diff', label: 'Diff' },
+        { id: 'escape', label: 'Escape/Unescape' },
+      ];
+
+      const clearAll = () => { setInput(''); setOutput(''); setError(''); setSuccess(''); };
+
+      const handleFormat = useCallback(() => {
+        setError(''); setSuccess('');
+        try {
+          const result = formatJSON(input, indentSize);
+          setOutput(result);
+          setSuccess('JSON formatted successfully');
+        } catch (e) { setError(e.message); setOutput(''); }
+      }, [input, indentSize]);
+
+      const handleMinify = useCallback(() => {
+        setError(''); setSuccess('');
+        try {
+          const result = minifyJSON(input);
+          setOutput(result);
+          const savings = input.length - result.length;
+          setSuccess(`Minified: saved ${savings} characters (${Math.round((savings/input.length)*100)}%)`);
+        } catch (e) { setError(e.message); setOutput(''); }
+      }, [input]);
+
+      const handleValidate = useCallback(() => {
+        setError(''); setSuccess(''); setOutput('');
+        const result = validateJSON(input);
+        if (result.valid) setSuccess('✓ Valid JSON');
+        else setError(result.message);
+      }, [input]);
+
+
+      const handleEscape = useCallback(() => {
+        setError(''); setSuccess('');
+        try {
+          const result = JSON.stringify(input);
+          setOutput(result);
+          setSuccess('String escaped successfully');
+        } catch (e) { setError(e.message); setOutput(''); }
+      }, [input]);
+
+      const handleUnescape = useCallback(() => {
+        setError(''); setSuccess('');
+        try {
+          const result = JSON.parse(input);
+          if (typeof result === 'string') {
+            setOutput(result);
+            setSuccess('String unescaped successfully');
+          } else {
+            setOutput(JSON.stringify(result, null, 2));
+            setSuccess('JSON parsed successfully');
+          }
+        } catch (e) { setError(e.message); setOutput(''); }
+      }, [input]);
+
+      const handleCopy = () => {
+        copyToClipboard(output || input);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      };
+
+      const handleDownload = () => {
+        const content = output || input;
+        const blob = new Blob([content], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'data.json'; a.click();
+        URL.revokeObjectURL(url);
+      };
+
+      const handleFileUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => setInput(ev.target.result);
+        reader.readAsText(file);
+      };
+
+      const handleSample = () => {
+        const sample = JSON.stringify({
+          name: "JSON Tool Online",
+          version: "1.0.0",
+          features: ["format", "minify", "validate", "tree-view", "diff"],
+          author: { name: "Developer", email: "dev@example.com" },
+          settings: { theme: "auto", indent: 2, lineNumbers: true },
+          tags: [{ id: 1, label: "utility" }, { id: 2, label: "developer-tool" }],
+          isActive: true,
+          createdAt: "2026-01-01T00:00:00Z"
+        }, null, 2);
+        setInput(sample);
+      };
+
+      const stats = useMemo(() => input ? getJSONStats(input) : null, [input]);
+
+
+      return (
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+          {/* Ambient Glow */}
+          <div className="ambient-glow" />
+
+          {/* Navbar */}
+          <nav className="navbar">
+            <div style={{ width: '100%', maxWidth: '72rem', padding: '0 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div className="logo-glow" style={{ width: 32, height: 32, borderRadius: 8, background: 'linear-gradient(135deg, #2563eb, #3b82f6)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ color: 'white', fontWeight: 700, fontSize: 14, fontFamily: 'monospace' }}>{'{}'}</span>
+                </div>
+                <span style={{ fontSize: 16, fontWeight: 600, color: 'var(--color-blue)', letterSpacing: '-0.02em' }}>JSON Tool</span>
+                <span className="badge">Online</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <a href="https://github.com/FuGuiLiu/JsonToolOnline" target="_blank" rel="noopener" className="btn btn-ghost" style={{ padding: 8 }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                </a>
+                <button className="btn btn-ghost" onClick={() => setDark(!dark)} style={{ padding: 8 }}>
+                  {dark ? icons.sun : icons.moon}
+                </button>
+              </div>
+            </div>
+          </nav>
+
+
+          {/* Main Content */}
+          <main style={{ flex: 1, width: '100%', maxWidth: '72rem', margin: '0 auto', padding: '0 40px' }}>
+            {/* Hero */}
+            <section style={{ textAlign: 'center', padding: '48px 0 40px' }}>
+              <h1 style={{ fontSize: 36, fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 8, color: 'var(--color-text-primary)' }}>
+                JSON Tool Online
+              </h1>
+              <p style={{ fontSize: 15, color: 'var(--color-text-secondary)', maxWidth: 480, margin: '0 auto' }}>
+                Format, minify, validate, and explore JSON with a clean, modern interface.
+              </p>
+            </section>
+
+            {/* Tabs */}
+            <div className="card" style={{ marginBottom: 24 }}>
+              <div style={{ padding: '4px 24px 0', borderBottom: '1px solid var(--color-border)', display: 'flex', gap: 0, overflowX: 'auto' }}>
+                {tabs.map(tab => (
+                  <button
+                    key={tab.id}
+                    className={`tab-btn ${activeTab === tab.id ? 'active' : ''}`}
+                    onClick={() => { setActiveTab(tab.id); setError(''); setSuccess(''); setOutput(''); }}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
+
+              <div style={{ padding: '20px 24px 24px' }} className="fade-in">
+                {/* Toolbar */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16, alignItems: 'center' }}>
+                  {activeTab === 'format' && (
+                    <>
+                      <button className="btn btn-primary" onClick={handleFormat}>Format</button>
+                      <select
+                        value={indentSize}
+                        onChange={(e) => setIndentSize(Number(e.target.value))}
+                        style={{ padding: '6px 12px', borderRadius: 8, border: '1px solid var(--color-border)', background: 'var(--color-surface)', color: 'var(--color-text-primary)', fontSize: 13 }}
+                      >
+                        <option value={2}>2 spaces</option>
+                        <option value={4}>4 spaces</option>
+                        <option value={8}>Tab (8)</option>
+                      </select>
+                    </>
+                  )}
+                  {activeTab === 'minify' && <button className="btn btn-primary" onClick={handleMinify}>Minify</button>}
+                  {activeTab === 'validate' && <button className="btn btn-primary" onClick={handleValidate}>Validate</button>}
+                  {activeTab === 'escape' && (
+                    <>
+                      <button className="btn btn-primary" onClick={handleEscape}>Escape</button>
+                      <button className="btn" onClick={handleUnescape}>Unescape</button>
+                    </>
+                  )}
+
+                  <div style={{ flex: 1 }} />
+
+                  <button className="btn btn-ghost" onClick={handleSample} title="Load sample">Sample</button>
+                  <label className="btn btn-ghost" title="Upload JSON file" style={{ cursor: 'pointer' }}>
+                    {icons.upload} Import
+                    <input type="file" accept=".json,.txt" onChange={handleFileUpload} style={{ display: 'none' }} />
+                  </label>
+                  {(output || input) && (
+                    <>
+                      <button className="btn btn-ghost" onClick={handleCopy} title="Copy to clipboard">
+                        {copied ? icons.check : icons.copy} {copied ? 'Copied' : 'Copy'}
+                      </button>
+                      <button className="btn btn-ghost" onClick={handleDownload} title="Download as file">
+                        {icons.download} Export
+                      </button>
+                    </>
+                  )}
+                  {input && (
+                    <button className="btn btn-ghost" onClick={clearAll} title="Clear all">
+                      {icons.trash}
+                    </button>
+                  )}
+                </div>
+
+
+                {/* Status Messages */}
+                {error && <div className="error-msg fade-in" style={{ marginBottom: 12 }}>{error}</div>}
+                {success && <div className="success-msg fade-in" style={{ marginBottom: 12 }}>{success}</div>}
+
+                {/* Stats Bar */}
+                {input && stats && activeTab !== 'diff' && (
+                  <div style={{ display: 'flex', gap: 12, marginBottom: 12, fontSize: 12, color: 'var(--color-text-tertiary)' }}>
+                    <span>Type: <span className="badge">{stats.type}</span></span>
+                    {stats.keys !== undefined && <span>Keys: <strong>{stats.keys}</strong></span>}
+                    {stats.size !== undefined && <span>Size: <strong>{stats.size}B</strong></span>}
+                    <span>Length: <strong>{input.length}</strong> chars</span>
+                  </div>
+                )}
+
+                {/* Diff Tab */}
+                {activeTab === 'diff' ? (
+                  <div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                      <div>
+                        <label style={{ fontSize: 12, fontWeight: 500, color: 'var(--color-text-secondary)', marginBottom: 6, display: 'block' }}>Left JSON</label>
+                        <textarea
+                          className="json-input"
+                          value={diffLeft}
+                          onChange={(e) => setDiffLeft(e.target.value)}
+                          placeholder='{"key": "original value"}'
+                          style={{ minHeight: 200 }}
+                        />
+                      </div>
+                      <div>
+                        <label style={{ fontSize: 12, fontWeight: 500, color: 'var(--color-text-secondary)', marginBottom: 6, display: 'block' }}>Right JSON</label>
+                        <textarea
+                          className="json-input"
+                          value={diffRight}
+                          onChange={(e) => setDiffRight(e.target.value)}
+                          placeholder='{"key": "modified value"}'
+                          style={{ minHeight: 200 }}
+                        />
+                      </div>
+                    </div>
+                    {diffLeft && diffRight && <JSONDiff left={diffLeft} right={diffRight} />}
+                  </div>
+                ) : (
+                  <div style={{ display: 'grid', gridTemplateColumns: activeTab === 'tree' ? '1fr' : (output ? '1fr 1fr' : '1fr'), gap: 16 }}>
+                    {/* Input */}
+                    {activeTab !== 'tree' || !input ? (
+                      <div>
+                        <label style={{ fontSize: 12, fontWeight: 500, color: 'var(--color-text-secondary)', marginBottom: 6, display: 'block' }}>Input</label>
+                        <textarea
+                          className="json-input"
+                          value={input}
+                          onChange={(e) => setInput(e.target.value)}
+                          placeholder="Paste your JSON here..."
+                          spellCheck={false}
+                        />
+                      </div>
+                    ) : null}
+
+                    {/* Output / Tree */}
+                    {activeTab === 'tree' && input ? (
+                      <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                          <label style={{ fontSize: 12, fontWeight: 500, color: 'var(--color-text-secondary)' }}>Tree View</label>
+                          <button className="btn btn-ghost" onClick={() => setInput('')} style={{ fontSize: 11, padding: '4px 8px' }}>← Back to Input</button>
+                        </div>
+                        <div className="json-output" style={{ minHeight: 360 }}>
+                          {(() => {
+                            try {
+                              const parsed = JSON.parse(input);
+                              return <TreeNode keyName={null} value={parsed} depth={0} />;
+                            } catch (e) {
+                              return <div className="error-msg">{e.message}</div>;
+                            }
+                          })()}
+                        </div>
+                      </div>
+                    ) : output ? (
+                      <div>
+                        <label style={{ fontSize: 12, fontWeight: 500, color: 'var(--color-text-secondary)', marginBottom: 6, display: 'block' }}>Output</label>
+                        <div className="json-output">{output}</div>
+                      </div>
+                    ) : null}
+                  </div>
+                )}
+              </div>
+            </div>
+
+
+            {/* Features Section */}
+            <section style={{ marginBottom: 64 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
+                {[
+                  { title: 'Format & Beautify', desc: 'Pretty-print JSON with configurable indentation' },
+                  { title: 'Minify', desc: 'Compress JSON by removing whitespace' },
+                  { title: 'Validate', desc: 'Check JSON syntax with detailed error messages' },
+                  { title: 'Tree View', desc: 'Explore JSON structure interactively' },
+                  { title: 'Diff Compare', desc: 'Compare two JSON objects side by side' },
+                  { title: 'Escape & Unescape', desc: 'Convert strings to/from JSON-safe format' },
+                ].map((f, i) => (
+                  <div key={i} className="card" style={{ padding: '20px 24px' }}>
+                    <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 4, color: 'var(--color-text-primary)' }}>{f.title}</h3>
+                    <p style={{ fontSize: 13, color: 'var(--color-text-secondary)', lineHeight: 1.5 }}>{f.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </main>
+
+          {/* Footer */}
+          <footer style={{ padding: '32px 40px', textAlign: 'center', color: 'var(--color-text-tertiary)', fontSize: 12, marginTop: 'auto' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 8 }}>
+              <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--color-blue)', opacity: 0.5 }} />
+              <span>Built with care</span>
+              <span style={{ width: 4, height: 4, borderRadius: '50%', background: 'var(--color-blue)', opacity: 0.5 }} />
+            </div>
+            <p>JSON Tool Online — Fast, private, runs entirely in your browser.</p>
+          </footer>
+        </div>
+      );
+    }
+
+    // ─── Render ───
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
+<!-- deploy trigger -->
+
