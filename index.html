@@ -18,542 +18,371 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <style>
-    /* ───────────────────────────────────────────────────────
-       Design tokens — Lovable design philosophy
-       ▸ White/blue palette: white as foundation, refined
-         modern blue (#2f5fea) as the brand voice.
-       ▸ Opacity-driven grays: every neutral derived from a
-         single deep blue-navy (#0a1330) at varying opacities.
-       ▸ Subtle borders > heavy shadows.
-       ▸ Inset-shadow on primary buttons for tactile depth.
-       ─────────────────────────────────────────────────────── */
     :root {
-      /* surfaces */
-      --bg:              #ffffff;
-      --bg-soft:         #f7f9fd;
-      --surface:         #ffffff;
-      --surface-soft:    #f4f7fc;
-
-      /* primary blue (modern, refined, not jarring) */
-      --blue:            #2f5fea;
-      --blue-hover:      #2450d4;
-      --blue-active:     #1d3fbb;
-      --blue-soft:       #eef3ff;
-      --blue-tint:       #f5f8ff;
-      --blue-ring:       rgba(47, 95, 234, 0.15);
-      --blue-glow:       rgba(47, 95, 234, 0.10);
-
-      /* opacity-driven neutrals — all derived from #0a1330 */
-      --ink:             #0a1330;
-      --ink-92:          rgba(10, 19, 48, 0.92);
-      --ink-82:          rgba(10, 19, 48, 0.82);
-      --ink-65:          rgba(10, 19, 48, 0.65);
-      --ink-50:          rgba(10, 19, 48, 0.50);
-      --ink-40:          rgba(10, 19, 48, 0.40);
-      --ink-15:          rgba(10, 19, 48, 0.15);
-      --ink-08:          rgba(10, 19, 48, 0.08);
-      --ink-04:          rgba(10, 19, 48, 0.04);
-
-      /* borders */
-      --border:          #e8edf7;
-      --border-strong:   rgba(10, 19, 48, 0.18);
-
-      /* feedback */
-      --green:           #0ea05a;
-      --green-soft:      #e8f7ee;
-      --red:             #d6363b;
-      --red-soft:        #fdecec;
-      --amber:           #c98300;
-      --amber-soft:      #fbf2dc;
-      --purple:          #6b4ce6;
+      --bg: #ffffff;
+      --bg-soft: #f7f9fd;
+      --surface: #ffffff;
+      --surface-soft: #f4f7fc;
+      --blue: #2f5fea;
+      --blue-hover: #2450d4;
+      --blue-active: #1d3fbb;
+      --blue-soft: #eef3ff;
+      --blue-tint: #f5f8ff;
+      --blue-ring: rgba(47, 95, 234, 0.15);
+      --blue-glow: rgba(47, 95, 234, 0.10);
+      --ink: #0a1330;
+      --ink-92: rgba(10, 19, 48, 0.92);
+      --ink-82: rgba(10, 19, 48, 0.82);
+      --ink-65: rgba(10, 19, 48, 0.65);
+      --ink-50: rgba(10, 19, 48, 0.50);
+      --ink-40: rgba(10, 19, 48, 0.40);
+      --ink-15: rgba(10, 19, 48, 0.15);
+      --ink-08: rgba(10, 19, 48, 0.08);
+      --ink-04: rgba(10, 19, 48, 0.04);
+      --border: #e8edf7;
+      --border-strong: rgba(10, 19, 48, 0.18);
+      --green: #0ea05a;
+      --green-soft: #e8f7ee;
+      --red: #d6363b;
+      --red-soft: #fdecec;
+      --amber: #c98300;
+      --amber-soft: #fbf2dc;
+      --purple: #6b4ce6;
     }
 
+
     html.dark {
-      --bg:              #0a0f1c;
-      --bg-soft:         #0d1424;
-      --surface:         #111830;
-      --surface-soft:    #0e1527;
-
-      --blue:            #6b91ff;
-      --blue-hover:      #82a3ff;
-      --blue-active:     #5680f5;
-      --blue-soft:       #1a2347;
-      --blue-tint:       #131a35;
-      --blue-ring:       rgba(107, 145, 255, 0.20);
-      --blue-glow:       rgba(107, 145, 255, 0.10);
-
-      --ink:             #eef2ff;
-      --ink-92:          rgba(238, 242, 255, 0.92);
-      --ink-82:          rgba(238, 242, 255, 0.78);
-      --ink-65:          rgba(238, 242, 255, 0.62);
-      --ink-50:          rgba(238, 242, 255, 0.50);
-      --ink-40:          rgba(238, 242, 255, 0.38);
-      --ink-15:          rgba(238, 242, 255, 0.15);
-      --ink-08:          rgba(238, 242, 255, 0.08);
-      --ink-04:          rgba(238, 242, 255, 0.04);
-
-      --border:          #1d2542;
-      --border-strong:   rgba(238, 242, 255, 0.16);
-
-      --green:           #4ade80;
-      --green-soft:      rgba(74, 222, 128, 0.10);
-      --red:             #f87171;
-      --red-soft:        rgba(248, 113, 113, 0.10);
-      --amber:           #facc15;
-      --amber-soft:      rgba(250, 204, 21, 0.10);
-      --purple:          #a78bfa;
+      --bg: #0a0f1c;
+      --bg-soft: #0d1424;
+      --surface: #111830;
+      --surface-soft: #0e1527;
+      --blue: #6b91ff;
+      --blue-hover: #82a3ff;
+      --blue-active: #5680f5;
+      --blue-soft: #1a2347;
+      --blue-tint: #131a35;
+      --blue-ring: rgba(107, 145, 255, 0.20);
+      --blue-glow: rgba(107, 145, 255, 0.10);
+      --ink: #eef2ff;
+      --ink-92: rgba(238, 242, 255, 0.92);
+      --ink-82: rgba(238, 242, 255, 0.78);
+      --ink-65: rgba(238, 242, 255, 0.62);
+      --ink-50: rgba(238, 242, 255, 0.50);
+      --ink-40: rgba(238, 242, 255, 0.38);
+      --ink-15: rgba(238, 242, 255, 0.15);
+      --ink-08: rgba(238, 242, 255, 0.08);
+      --ink-04: rgba(238, 242, 255, 0.04);
+      --border: #1d2542;
+      --border-strong: rgba(238, 242, 255, 0.16);
+      --green: #4ade80;
+      --green-soft: rgba(74, 222, 128, 0.10);
+      --red: #f87171;
+      --red-soft: rgba(248, 113, 113, 0.10);
+      --amber: #facc15;
+      --amber-soft: rgba(250, 204, 21, 0.10);
+      --purple: #a78bfa;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html, body { height: 100%; }
-
     body {
       font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 15px;
-      line-height: 1.5;
-      color: var(--ink);
-      background: var(--bg);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+      font-size: 15px; line-height: 1.5; color: var(--ink); background: var(--bg);
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
       transition: background 200ms ease, color 200ms ease;
     }
-
     code, pre, .mono, textarea.mono {
       font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Consolas, monospace;
       font-feature-settings: "liga" 0;
     }
-
     ::selection { background: var(--blue-ring); color: var(--ink); }
-
-    /* scrollbars */
     ::-webkit-scrollbar { width: 10px; height: 10px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb {
-      background: var(--ink-15);
-      border-radius: 999px;
-      border: 2px solid var(--bg);
-    }
+    ::-webkit-scrollbar-thumb { background: var(--ink-15); border-radius: 999px; border: 2px solid var(--bg); }
     ::-webkit-scrollbar-thumb:hover { background: var(--ink-40); }
 
-    /* ───────── Layout ───────── */
 
-    .container {
-      width: 100%;
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 0 32px;
-    }
+    .container { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 32px; }
     @media (max-width: 640px) { .container { padding: 0 20px; } }
 
-    /* ───────── Ambient hero glow ───────── */
-    .ambient {
-      position: fixed;
-      inset: 0 0 auto 0;
-      height: 720px;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.85;
-    }
+    .ambient { position: fixed; inset: 0 0 auto 0; height: 720px; pointer-events: none; z-index: 0; opacity: 0.85; }
     .ambient::before {
-      content: '';
-      position: absolute;
-      top: -200px; left: 50%;
-      transform: translateX(-50%);
+      content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
       width: 1200px; height: 720px;
-      background:
-        radial-gradient(ellipse 60% 50% at 30% 30%, rgba(47, 95, 234, 0.12), transparent 70%),
+      background: radial-gradient(ellipse 60% 50% at 30% 30%, rgba(47, 95, 234, 0.12), transparent 70%),
         radial-gradient(ellipse 50% 40% at 70% 30%, rgba(107, 76, 230, 0.08), transparent 70%);
       filter: blur(20px);
     }
     html.dark .ambient::before {
-      background:
-        radial-gradient(ellipse 60% 50% at 30% 30%, rgba(107, 145, 255, 0.10), transparent 70%),
+      background: radial-gradient(ellipse 60% 50% at 30% 30%, rgba(107, 145, 255, 0.10), transparent 70%),
         radial-gradient(ellipse 50% 40% at 70% 30%, rgba(167, 139, 250, 0.06), transparent 70%);
     }
 
-    /* ───────── Navbar ───────── */
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: saturate(180%) blur(20px);
-      -webkit-backdrop-filter: saturate(180%) blur(20px);
-      background: color-mix(in srgb, var(--bg) 78%, transparent);
-      border-bottom: 1px solid var(--border);
-    }
-    .navbar-inner {
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-      text-decoration: none;
-    }
-    .brand-mark {
-      width: 28px; height: 28px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, var(--blue) 0%, #5b8aff 100%);
-      display: grid; place-items: center;
-      color: #fff;
-      font-weight: 600;
-      font-size: 12px;
-      box-shadow:
-        rgba(255,255,255,0.25) 0 0.5px 0 0 inset,
-        rgba(0,0,0,0.18) 0 0 0 0.5px inset,
-        rgba(47, 95, 234, 0.30) 0 6px 18px -6px;
-    }
+    .navbar { position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); background: color-mix(in srgb, var(--bg) 78%, transparent); border-bottom: 1px solid var(--border); }
+    .navbar-inner { height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .brand { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; }
+    .brand-mark { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, var(--blue) 0%, #5b8aff 100%); display: grid; place-items: center; color: #fff; font-weight: 600; font-size: 12px; box-shadow: rgba(255,255,255,0.25) 0 0.5px 0 0 inset, rgba(0,0,0,0.18) 0 0 0 0.5px inset, rgba(47, 95, 234, 0.30) 0 6px 18px -6px; }
 
-    /* ───────── Buttons ─────────
-       Inset shadow technique for tactile depth (Lovable-style). */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      height: 36px;
-      padding: 0 14px;
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 500;
-      line-height: 1;
-      letter-spacing: -0.005em;
-      cursor: pointer;
-      user-select: none;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--ink);
-      transition: background 160ms ease, color 160ms ease, box-shadow 200ms ease, opacity 160ms ease, transform 120ms ease;
-      white-space: nowrap;
-    }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 8px; font-family: inherit; font-size: 14px; font-weight: 500; line-height: 1; letter-spacing: -0.005em; cursor: pointer; user-select: none; border: 1px solid transparent; background: transparent; color: var(--ink); transition: background 160ms ease, color 160ms ease, box-shadow 200ms ease, opacity 160ms ease, transform 120ms ease; white-space: nowrap; }
     .btn:active { opacity: 0.85; transform: translateY(0.5px); }
-    .btn:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 4px var(--blue-ring);
-    }
-
-    .btn-primary {
-      background: var(--blue);
-      color: #fff;
-      box-shadow:
-        rgba(255,255,255,0.22) 0 0.5px 0 0 inset,
-        rgba(0,0,0,0.22) 0 0 0 0.5px inset,
-        rgba(47, 95, 234, 0.28) 0 6px 16px -6px,
-        rgba(47, 95, 234, 0.18) 0 1px 2px 0;
-    }
+    .btn:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--blue-ring); }
+    .btn-primary { background: var(--blue); color: #fff; box-shadow: rgba(255,255,255,0.22) 0 0.5px 0 0 inset, rgba(0,0,0,0.22) 0 0 0 0.5px inset, rgba(47, 95, 234, 0.28) 0 6px 16px -6px, rgba(47, 95, 234, 0.18) 0 1px 2px 0; }
     .btn-primary:hover { background: var(--blue-hover); }
     html.dark .btn-primary { color: #0a0f1c; font-weight: 600; }
-
-    .btn-outline {
-      background: var(--surface);
-      border-color: var(--border-strong);
-      color: var(--ink);
-    }
+    .btn-outline { background: var(--surface); border-color: var(--border-strong); color: var(--ink); }
     .btn-outline:hover { background: var(--surface-soft); }
-
     .btn-ghost { color: var(--ink-82); }
     .btn-ghost:hover { background: var(--ink-04); color: var(--ink); }
-
-    .btn-icon {
-      width: 36px;
-      height: 36px;
-      padding: 0;
-      border-radius: 999px;
-      color: var(--ink-65);
-    }
+    .btn-icon { width: 36px; height: 36px; padding: 0; border-radius: 999px; color: var(--ink-65); }
     .btn-icon:hover { background: var(--ink-04); color: var(--ink); }
-
     .btn-sm { height: 30px; padding: 0 10px; font-size: 13px; border-radius: 6px; }
 
-    /* ───────── Card ───────── */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      transition: border-color 160ms ease, transform 200ms ease;
-    }
-    .card-soft {
-      background: var(--surface-soft);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-    }
 
-    /* ───────── Tabs ───────── */
-    .tabs {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-      padding: 6px;
-      background: var(--surface-soft);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      width: fit-content;
-      max-width: 100%;
-      overflow-x: auto;
-    }
-    .tab {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 14px;
-      font-family: inherit;
-      font-size: 13.5px;
-      font-weight: 500;
-      color: var(--ink-65);
-      background: transparent;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: color 140ms ease, background 140ms ease;
-    }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; transition: border-color 160ms ease, transform 200ms ease; }
+
+    .tabs { display: flex; align-items: center; gap: 2px; padding: 6px; background: var(--surface-soft); border: 1px solid var(--border); border-radius: 12px; width: fit-content; max-width: 100%; overflow-x: auto; }
+    .tab { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; font-family: inherit; font-size: 13.5px; font-weight: 500; color: var(--ink-65); background: transparent; border: none; border-radius: 8px; cursor: pointer; white-space: nowrap; transition: color 140ms ease, background 140ms ease; }
     .tab:hover { color: var(--ink); }
-    .tab[aria-selected="true"] {
-      color: var(--blue);
-      background: var(--surface);
-      box-shadow:
-        rgba(10, 19, 48, 0.04) 0 1px 2px,
-        rgba(10, 19, 48, 0.06) 0 0 0 1px;
-    }
-    html.dark .tab[aria-selected="true"] {
-      color: #fff;
-      background: var(--blue);
-      box-shadow: none;
-    }
+    .tab[aria-selected="true"] { color: var(--blue); background: var(--surface); box-shadow: rgba(10, 19, 48, 0.04) 0 1px 2px, rgba(10, 19, 48, 0.06) 0 0 0 1px; }
+    html.dark .tab[aria-selected="true"] { color: #fff; background: var(--blue); box-shadow: none; }
 
-    /* ───────── Form controls ───────── */
-    .field-label {
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      color: var(--ink-50);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .field-label { font-size: 12px; font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase; color: var(--ink-50); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
 
-    .json-input, .json-output {
-      width: 100%;
-      min-height: 360px;
-      padding: 16px 18px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      background: var(--surface-soft);
-      color: var(--ink);
-      font-family: 'JetBrains Mono', ui-monospace, monospace;
-      font-size: 13px;
-      line-height: 1.65;
-      resize: vertical;
-      outline: none;
-      transition: border-color 160ms ease, box-shadow 200ms ease, background 160ms ease;
-    }
+    .json-input, .json-output { width: 100%; min-height: 360px; padding: 16px 18px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-soft); color: var(--ink); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 13px; line-height: 1.65; resize: vertical; outline: none; transition: border-color 160ms ease, box-shadow 200ms ease, background 160ms ease; }
     .json-input::placeholder { color: var(--ink-40); }
-    .json-input:focus {
-      border-color: var(--blue);
-      background: var(--surface);
-      box-shadow: 0 0 0 4px var(--blue-ring);
-    }
-    .json-output {
-      overflow: auto;
-      white-space: pre;
-      word-break: normal;
-    }
+    .json-input:focus { border-color: var(--blue); background: var(--surface); box-shadow: 0 0 0 4px var(--blue-ring); }
+    .json-output { overflow: auto; white-space: pre; word-break: normal; }
 
-    .select {
-      height: 32px;
-      padding: 0 28px 0 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border-strong);
-      background: var(--surface);
-      color: var(--ink);
-      font-family: inherit;
-      font-size: 13px;
-      cursor: pointer;
-      appearance: none;
-      background-image:
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230a1330' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-      background-repeat: no-repeat;
-      background-position: right 8px center;
-    }
-    html.dark .select {
-      background-image:
-        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23eef2ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-    }
+    .select { height: 32px; padding: 0 28px 0 12px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--ink); font-family: inherit; font-size: 13px; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230a1330' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>"); background-repeat: no-repeat; background-position: right 8px center; }
+    html.dark .select { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23eef2ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>"); }
 
-    /* ───────── Status messages ───────── */
-    .alert {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 12px 14px;
-      border-radius: 10px;
-      font-size: 13.5px;
-      line-height: 1.5;
-      border: 1px solid transparent;
-    }
-    .alert-success {
-      background: var(--green-soft);
-      border-color: color-mix(in srgb, var(--green) 25%, transparent);
-      color: var(--green);
-    }
-    .alert-error {
-      background: var(--red-soft);
-      border-color: color-mix(in srgb, var(--red) 25%, transparent);
-      color: var(--red);
-    }
-    .alert-icon { flex-shrink: 0; margin-top: 1px; }
+    .alert { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: 10px; font-size: 13.5px; line-height: 1.5; border: 1px solid transparent; }
+    .alert-success { background: var(--green-soft); border-color: color-mix(in srgb, var(--green) 25%, transparent); color: var(--green); }
+    .alert-error { background: var(--red-soft); border-color: color-mix(in srgb, var(--red) 25%, transparent); color: var(--red); }
 
-    /* ───────── Tree view ───────── */
-    .tree {
-      font-size: 13px;
-      line-height: 1.7;
-    }
-    .tree-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 4px;
-      padding: 0 4px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+
+    .tree { font-size: 13px; line-height: 1.7; }
+    .tree-row { display: flex; align-items: flex-start; gap: 4px; padding: 0 4px; border-radius: 4px; cursor: pointer; }
     .tree-row:hover { background: var(--ink-04); }
-    .tree-key   { color: var(--blue);      font-weight: 500; }
-    .tree-string{ color: var(--green); }
-    .tree-number{ color: var(--amber); }
-    .tree-bool  { color: var(--purple); }
-    .tree-null  { color: var(--ink-40);    font-style: italic; }
+    .tree-key { color: var(--blue); font-weight: 500; }
+    .tree-string { color: var(--green); }
+    .tree-number { color: var(--amber); }
+    .tree-bool { color: var(--purple); }
+    .tree-null { color: var(--ink-40); font-style: italic; }
     .tree-bracket { color: var(--ink-50); }
-    .tree-meta  { color: var(--ink-40);    margin-left: 6px; font-size: 12px; }
-    .tree-caret {
-      width: 14px;
-      flex-shrink: 0;
-      color: var(--ink-50);
-      transition: transform 160ms ease;
-      margin-top: 4px;
-    }
+    .tree-meta { color: var(--ink-40); margin-left: 6px; font-size: 12px; }
+    .tree-caret { width: 14px; flex-shrink: 0; color: var(--ink-50); transition: transform 160ms ease; margin-top: 4px; }
 
-    /* ───────── Misc ───────── */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 8px;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.01em;
-      border-radius: 999px;
-      background: var(--blue-soft);
-      color: var(--blue);
-    }
-
-    .stat-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 10px;
-      font-size: 12px;
-      font-weight: 500;
-      border-radius: 999px;
-      background: var(--ink-04);
-      color: var(--ink-65);
-    }
+    .badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; font-size: 11px; font-weight: 500; letter-spacing: 0.01em; border-radius: 999px; background: var(--blue-soft); color: var(--blue); }
+    .stat-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; font-size: 12px; font-weight: 500; border-radius: 999px; background: var(--ink-04); color: var(--ink-65); }
     .stat-pill strong { color: var(--ink); font-weight: 600; }
 
-    .divider { height: 1px; background: var(--border); margin: 0; }
+    .display { font-size: clamp(36px, 6vw, 60px); line-height: 1.05; letter-spacing: -0.035em; font-weight: 600; color: var(--ink); }
+    .display .accent { background: linear-gradient(135deg, var(--blue) 0%, #6b91ff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .lead { font-size: clamp(15px, 1.6vw, 18px); line-height: 1.55; color: var(--ink-65); max-width: 560px; margin: 0 auto; }
 
-    /* hero typography */
-    .display {
-      font-size: clamp(36px, 6vw, 60px);
-      line-height: 1.05;
-      letter-spacing: -0.035em;
-      font-weight: 600;
-      color: var(--ink);
-    }
-    .display .accent {
-      background: linear-gradient(135deg, var(--blue) 0%, #6b91ff 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .lead {
-      font-size: clamp(15px, 1.6vw, 18px);
-      line-height: 1.55;
-      color: var(--ink-65);
-      max-width: 560px;
-      margin: 0 auto;
-    }
-
-    /* feature card */
-    .feature {
-      padding: 24px;
-      border-radius: 14px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      transition: border-color 200ms ease, transform 200ms ease;
-    }
+    .feature { padding: 24px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); transition: border-color 200ms ease, transform 200ms ease; }
     .feature:hover { border-color: var(--border-strong); transform: translateY(-1px); }
-    .feature-icon {
-      width: 36px; height: 36px;
-      border-radius: 10px;
-      background: var(--blue-tint);
-      color: var(--blue);
-      display: grid; place-items: center;
-      margin-bottom: 14px;
-    }
+    .feature-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--blue-tint); color: var(--blue); display: grid; place-items: center; margin-bottom: 14px; }
 
-    /* fade in */
     .fade-in { animation: fadeIn 240ms ease both; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-    /* responsive grid */
-    .grid-split {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    @media (max-width: 880px) {
-      .grid-split { grid-template-columns: 1fr; }
-    }
+    .grid-split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 880px) { .grid-split { grid-template-columns: 1fr; } }
 
-    .toolbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-    }
+    .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
     .toolbar-spacer { flex: 1; min-width: 0; }
 
-    /* footer */
-    .footer {
-      padding: 56px 0 40px;
-      color: var(--ink-50);
-      font-size: 13px;
-      text-align: center;
-      border-top: 1px solid var(--border);
-      margin-top: 80px;
-    }
+    .footer { padding: 56px 0 40px; color: var(--ink-50); font-size: 13px; text-align: center; border-top: 1px solid var(--border); margin-top: 80px; }
     .footer a { color: var(--ink-82); text-decoration: none; }
     .footer a:hover { color: var(--blue); }
+
+    .lang-toggle { height: 30px; padding: 0 10px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid var(--border-strong); background: var(--surface); color: var(--ink); transition: background 160ms ease; }
+    .lang-toggle:hover { background: var(--surface-soft); }
   </style>
 </head>
 <body>
   <div id="root"></div>
   <script type="text/babel" data-presets="env,react">
-    const { useState, useCallback, useMemo, useEffect, useRef } = React;
+    const { useState, useCallback, useMemo, useEffect, useRef, createContext, useContext } = React;
+
+
+    /* ───────── i18n System ───────── */
+    const locales = {
+      en: {
+        // navbar
+        online: 'online',
+        github: 'GitHub',
+        // hero
+        badgeText: '100% in-browser · No data uploaded',
+        heroTitle1: 'The JSON toolkit,',
+        heroTitle2: 'designed for clarity.',
+        heroDesc: 'Format, validate, minify, explore, and diff JSON — all in one calm, fast workspace that runs entirely in your browser.',
+        // tabs
+        tabFormat: 'Format',
+        tabMinify: 'Minify',
+        tabValidate: 'Validate',
+        tabTree: 'Tree',
+        tabDiff: 'Diff',
+        tabEscape: 'Escape',
+        // actions
+        formatJson: 'Format JSON',
+        minifyJson: 'Minify JSON',
+        validate: 'Validate',
+        escape: 'Escape',
+        unescape: 'Unescape',
+        sample: 'Sample',
+        import_: 'Import',
+        copy: 'Copy',
+        copied: 'Copied',
+        export_: 'Export',
+        // labels
+        input: 'Input',
+        output: 'Output',
+        sourceA: 'Source A',
+        sourceB: 'Source B',
+        differences: 'Differences',
+        treeExplorer: 'Tree explorer',
+        // placeholders
+        placeholderJson: 'Paste your JSON here…',
+        placeholderEscape: 'Enter a string to escape, or escaped JSON to unescape…',
+        placeholderOriginal: '{"key": "original"}',
+        placeholderModified: '{"key": "modified"}',
+        // stats
+        type: 'type',
+        nodes: 'nodes',
+        size: 'size',
+        chars: 'chars',
+        // messages
+        formatSuccess: (n) => `Formatted with ${n}-space indentation.`,
+        minifySuccess: (saved, pct) => `Minified — saved ${saved} characters (${pct}%).`,
+        validateSuccess: 'Valid JSON — no syntax errors.',
+        escapeSuccess: 'String escaped — ready to embed in JSON.',
+        unescapeSuccess: 'Successfully unescaped.',
+        diffInvalid: 'Both inputs must be valid JSON to compare.',
+        diffIdentical: 'Identical — no differences found.',
+        diffAdded: '+ added',
+        diffRemoved: '- removed',
+        diffChanged: '~ changed',
+        treeEmpty: 'Enter JSON on the left to explore its structure.',
+        outputEmpty: (action) => `Your output appears here. Press ${action} to begin.`,
+        // indent options
+        spaces2: '2 spaces',
+        spaces4: '4 spaces',
+        tab8: 'Tab (8)',
+        // features section
+        featuresTitle: 'Everything you need, nothing you don\'t.',
+        featuresDesc: 'A focused toolkit, refined for daily use.',
+        feat1Title: 'Pretty format',
+        feat1Desc: 'Beautify JSON with 2, 4, or 8-space indentation. Instantly readable.',
+        feat2Title: 'Minify',
+        feat2Desc: 'Strip whitespace and shrink payloads — ideal for production transport.',
+        feat3Title: 'Strict validation',
+        feat3Desc: 'Catch syntax errors with clear, line-aware messages.',
+        feat4Title: 'Tree explorer',
+        feat4Desc: 'Navigate deeply nested structures with collapsible branches.',
+        feat5Title: 'Diff compare',
+        feat5Desc: 'Spot every added, removed, or changed key between two payloads.',
+        feat6Title: 'Escape / unescape',
+        feat6Desc: 'Safely embed strings in JSON, or recover them back into plain text.',
+        // footer
+        footerText: 'Runs entirely in your browser · No tracking · No uploads',
+        footerLink: 'View on GitHub',
+        // tree
+        items: 'items',
+        keys: 'keys',
+      },
+
+
+      zh: {
+        // navbar
+        online: '在线',
+        github: 'GitHub',
+        // hero
+        badgeText: '100% 浏览器运行 · 无数据上传',
+        heroTitle1: 'JSON 工具箱，',
+        heroTitle2: '为清晰而设计。',
+        heroDesc: '格式化、验证、压缩、探索和对比 JSON — 在一个简洁、快速的工作区中完成，完全在浏览器中运行。',
+        // tabs
+        tabFormat: '格式化',
+        tabMinify: '压缩',
+        tabValidate: '验证',
+        tabTree: '树视图',
+        tabDiff: '对比',
+        tabEscape: '转义',
+        // actions
+        formatJson: '格式化 JSON',
+        minifyJson: '压缩 JSON',
+        validate: '验证',
+        escape: '转义',
+        unescape: '反转义',
+        sample: '示例',
+        import_: '导入',
+        copy: '复制',
+        copied: '已复制',
+        export_: '导出',
+        // labels
+        input: '输入',
+        output: '输出',
+        sourceA: '源 A',
+        sourceB: '源 B',
+        differences: '差异',
+        treeExplorer: '树形浏览器',
+        // placeholders
+        placeholderJson: '在此粘贴 JSON…',
+        placeholderEscape: '输入要转义的字符串，或要反转义的 JSON…',
+        placeholderOriginal: '{"key": "原始值"}',
+        placeholderModified: '{"key": "修改值"}',
+        // stats
+        type: '类型',
+        nodes: '节点',
+        size: '大小',
+        chars: '字符',
+        // messages
+        formatSuccess: (n) => `已使用 ${n} 空格缩进格式化。`,
+        minifySuccess: (saved, pct) => `已压缩 — 节省 ${saved} 个字符 (${pct}%)。`,
+        validateSuccess: '有效 JSON — 无语法错误。',
+        escapeSuccess: '字符串已转义 — 可嵌入 JSON。',
+        unescapeSuccess: '反转义成功。',
+        diffInvalid: '两个输入都必须是有效的 JSON 才能比较。',
+        diffIdentical: '完全相同 — 未发现差异。',
+        diffAdded: '+ 新增',
+        diffRemoved: '- 删除',
+        diffChanged: '~ 变更',
+        treeEmpty: '在左侧输入 JSON 以探索其结构。',
+        outputEmpty: (action) => `输出将在此显示。点击「${action}」开始。`,
+        // indent options
+        spaces2: '2 空格',
+        spaces4: '4 空格',
+        tab8: 'Tab (8)',
+        // features section
+        featuresTitle: '你需要的一切，不多也不少。',
+        featuresDesc: '专注的工具集，为日常使用而优化。',
+        feat1Title: '美化格式',
+        feat1Desc: '使用 2、4 或 8 空格缩进美化 JSON，立即可读。',
+        feat2Title: '压缩',
+        feat2Desc: '去除空白并压缩数据 — 适合生产环境传输。',
+        feat3Title: '严格验证',
+        feat3Desc: '通过清晰的行级错误信息捕获语法错误。',
+        feat4Title: '树形浏览',
+        feat4Desc: '通过可折叠的分支导航深层嵌套结构。',
+        feat5Title: '差异对比',
+        feat5Desc: '发现两个数据间每一个新增、删除或修改的键。',
+        feat6Title: '转义 / 反转义',
+        feat6Desc: '安全地将字符串嵌入 JSON，或将其还原为纯文本。',
+        // footer
+        footerText: '完全在浏览器中运行 · 无追踪 · 无上传',
+        footerLink: '在 GitHub 上查看',
+        // tree
+        items: '项',
+        keys: '键',
+      }
+    };
+
+    const I18nContext = createContext({ t: locales.en, lang: 'en', setLang: () => {} });
+    const useI18n = () => useContext(I18nContext);
+
 
     /* ───────── Inline icons ───────── */
     const Icon = ({ d, size = 16, ...rest }) => (
@@ -570,7 +399,6 @@
       upload:     <Icon size={14} d={<><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></>} />,
       sparkles:   <Icon size={14} d={<><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/><path d="M19 15l.7 2.1L22 18l-2.3.9L19 21l-.7-2.1L16 18l2.3-.9L19 15z"/></>} />,
       caret:      <Icon size={12} d={<polyline points="6 9 12 15 18 9"/>} />,
-      caretRight: <Icon size={12} d={<polyline points="9 6 15 12 9 18"/>} />,
       check2:     <Icon d={<><circle cx="12" cy="12" r="10" fill="currentColor" stroke="none" opacity="0.12"/><polyline points="9 12 11 14 15 10"/></>} />,
       x:          <Icon d={<><circle cx="12" cy="12" r="10" fill="currentColor" stroke="none" opacity="0.12"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></>} />,
       braces:     <Icon d={<><path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5a2 2 0 0 0 2 2h1"/><path d="M16 21h1a2 2 0 0 0 2-2v-5a2 2 0 0 1 2-2 2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"/></>} />,
@@ -579,18 +407,13 @@
       tree:       <Icon d={<><path d="M3 12h4M3 6h4M3 18h4"/><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><path d="M11 6h6M11 12h6M11 18h6"/></>} />,
       diff:       <Icon d={<><polyline points="22 19 13 19"/><polyline points="22 12 13 12"/><polyline points="22 5 13 5"/><polyline points="3 12 8 7 8 17 3 12z"/></>} />,
       quote:      <Icon d={<><path d="M3 21l9-9 9 9"/><path d="M3 10c0-3 2-5 5-5"/><path d="M14 5h2a3 3 0 0 1 3 3v2"/></>} />,
-      github:     <Icon d={<path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.16c-3.2.7-3.88-1.36-3.88-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.74 2.68 1.24 3.34.95.1-.74.4-1.24.72-1.53-2.55-.29-5.23-1.27-5.23-5.65 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17a10.95 10.95 0 0 1 5.74 0c2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.39-2.69 5.36-5.25 5.64.41.36.78 1.05.78 2.13v3.16c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z"/>} />,
+      globe:      <Icon size={14} d={<><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></>} />,
     };
 
+
     /* ───────── JSON utilities ───────── */
-    function formatJSON(str, indent = 2) {
-      const parsed = JSON.parse(str);
-      return JSON.stringify(parsed, null, indent);
-    }
-    function minifyJSON(str) {
-      const parsed = JSON.parse(str);
-      return JSON.stringify(parsed);
-    }
+    function formatJSON(str, indent = 2) { return JSON.stringify(JSON.parse(str), null, indent); }
+    function minifyJSON(str) { return JSON.stringify(JSON.parse(str)); }
     function validateJSON(str) {
       try { JSON.parse(str); return { valid: true }; }
       catch (e) { return { valid: false, message: e.message }; }
@@ -601,22 +424,14 @@
         const type = Array.isArray(parsed) ? 'array' : (parsed === null ? 'null' : typeof parsed);
         const size = new Blob([str]).size;
         let nodes = 0;
-        const walk = (v) => {
-          nodes++;
-          if (Array.isArray(v)) v.forEach(walk);
-          else if (v && typeof v === 'object') Object.values(v).forEach(walk);
-        };
+        const walk = (v) => { nodes++; if (Array.isArray(v)) v.forEach(walk); else if (v && typeof v === 'object') Object.values(v).forEach(walk); };
         walk(parsed);
         return { type, size, nodes };
       } catch { return null; }
     }
     function copyText(text) {
       if (navigator.clipboard) navigator.clipboard.writeText(text);
-      else {
-        const el = document.createElement('textarea');
-        el.value = text; document.body.appendChild(el);
-        el.select(); document.execCommand('copy'); document.body.removeChild(el);
-      }
+      else { const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); }
     }
     function formatBytes(n) {
       if (n < 1024) return n + ' B';
@@ -626,6 +441,7 @@
 
     /* ───────── Tree node ───────── */
     function TreeNode({ name, value, depth, defaultOpen }) {
+      const { t } = useI18n();
       const isObj = value !== null && typeof value === 'object';
       const isArr = Array.isArray(value);
       const [open, setOpen] = useState(defaultOpen ?? depth < 1);
@@ -636,7 +452,7 @@
         else if (typeof value === 'number') { cls = 'tree-number'; display = String(value); }
         else if (typeof value === 'boolean'){ cls = 'tree-bool';   display = String(value); }
         return (
-          <div className="mono" style={{ paddingLeft: depth * 18, padding: '1px 4px 1px ' + (depth * 18 + 4) + 'px' }}>
+          <div className="mono" style={{ padding: '1px 4px 1px ' + (depth * 18 + 4) + 'px' }}>
             {name !== null && <span className="tree-key">{name}: </span>}
             <span className={cls}>{display}</span>
           </div>
@@ -652,13 +468,11 @@
             <span className="tree-caret" style={{ transform: open ? 'rotate(0)' : 'rotate(-90deg)' }}>{I.caret}</span>
             {name !== null && <span className="tree-key">{name}: </span>}
             <span className="tree-bracket">{open0}</span>
-            {!open && <><span className="tree-meta">{entries.length} {isArr ? 'items' : 'keys'}</span><span className="tree-bracket"> {close0}</span></>}
+            {!open && <><span className="tree-meta">{entries.length} {isArr ? t.items : t.keys}</span><span className="tree-bracket"> {close0}</span></>}
           </div>
           {open && (
             <>
-              {entries.map(([k, v]) => (
-                <TreeNode key={k} name={isArr ? k : `"${k}"`} value={v} depth={depth + 1} />
-              ))}
+              {entries.map(([k, v]) => <TreeNode key={k} name={isArr ? k : `"${k}"`} value={v} depth={depth + 1} />)}
               <div className="mono tree-bracket" style={{ paddingLeft: depth * 18 + 22 }}>{close0}</div>
             </>
           )}
@@ -666,21 +480,20 @@
       );
     }
 
-    /* ───────── Diff computation ───────── */
+
+    /* ───────── Diff ───────── */
     function computeDiff(left, right, path) {
       const out = [];
       if (typeof left !== typeof right || Array.isArray(left) !== Array.isArray(right)) {
-        out.push({ path: path || '(root)', type: 'changed', oldValue: left, newValue: right });
-        return out;
+        out.push({ path: path || '(root)', type: 'changed', oldValue: left, newValue: right }); return out;
       }
       if (typeof left !== 'object' || left === null) {
-        if (left !== right) out.push({ path: path || '(root)', type: 'changed', oldValue: left, newValue: right });
-        return out;
+        if (left !== right) out.push({ path: path || '(root)', type: 'changed', oldValue: left, newValue: right }); return out;
       }
       const keys = new Set([...Object.keys(left), ...Object.keys(right)]);
       for (const k of keys) {
         const np = path ? `${path}.${k}` : k;
-        if (!(k in left))       out.push({ path: np, type: 'added',   value: right[k] });
+        if (!(k in left)) out.push({ path: np, type: 'added', value: right[k] });
         else if (!(k in right)) out.push({ path: np, type: 'removed', value: left[k] });
         else out.push(...computeDiff(left[k], right[k], np));
       }
@@ -688,22 +501,19 @@
     }
 
     function JSONDiff({ left, right }) {
+      const { t } = useI18n();
       const diff = useMemo(() => {
         try { return computeDiff(JSON.parse(left), JSON.parse(right), ''); }
         catch { return null; }
       }, [left, right]);
 
-      if (!diff) {
-        return <div className="alert alert-error">{I.x} <span>Both inputs must be valid JSON to compare.</span></div>;
-      }
-      if (diff.length === 0) {
-        return <div className="alert alert-success">{I.check2} <span>Identical — no differences found.</span></div>;
-      }
+      if (!diff) return <div className="alert alert-error">{I.x} <span>{t.diffInvalid}</span></div>;
+      if (diff.length === 0) return <div className="alert alert-success">{I.check2} <span>{t.diffIdentical}</span></div>;
 
       const colors = {
-        added:   { bg: 'var(--green-soft)', dot: 'var(--green)',  label: '+ added'   },
-        removed: { bg: 'var(--red-soft)',   dot: 'var(--red)',    label: '- removed' },
-        changed: { bg: 'var(--amber-soft)', dot: 'var(--amber)',  label: '~ changed' },
+        added:   { bg: 'var(--green-soft)', dot: 'var(--green)',  label: t.diffAdded },
+        removed: { bg: 'var(--red-soft)',   dot: 'var(--red)',    label: t.diffRemoved },
+        changed: { bg: 'var(--amber-soft)', dot: 'var(--amber)',  label: t.diffChanged },
       };
 
       return (
@@ -711,23 +521,14 @@
           {diff.map((d, i) => {
             const c = colors[d.type];
             return (
-              <div key={i} className="mono" style={{
-                padding: '8px 12px',
-                borderRadius: 8,
-                background: c.bg,
-                borderLeft: `3px solid ${c.dot}`,
-                fontSize: 12.5,
-                lineHeight: 1.55,
-              }}>
+              <div key={i} className="mono" style={{ padding: '8px 12px', borderRadius: 8, background: c.bg, borderLeft: `3px solid ${c.dot}`, fontSize: 12.5, lineHeight: 1.55 }}>
                 <span style={{ color: c.dot, fontWeight: 600, marginRight: 8 }}>{c.label}</span>
                 <span style={{ color: 'var(--ink-65)' }}>{d.path}</span>
                 <span style={{ color: 'var(--ink-40)' }}> · </span>
                 <span style={{ color: 'var(--ink)' }}>
-                  {d.type === 'added'   && JSON.stringify(d.value)}
+                  {d.type === 'added' && JSON.stringify(d.value)}
                   {d.type === 'removed' && JSON.stringify(d.value)}
-                  {d.type === 'changed' && (
-                    <>{JSON.stringify(d.oldValue)} <span style={{ color: 'var(--ink-40)' }}>→</span> {JSON.stringify(d.newValue)}</>
-                  )}
+                  {d.type === 'changed' && <>{JSON.stringify(d.oldValue)} <span style={{ color: 'var(--ink-40)' }}>→</span> {JSON.stringify(d.newValue)}</>}
                 </span>
               </div>
             );
@@ -736,20 +537,16 @@
       );
     }
 
+
     /* ───────── Sample data ───────── */
     const SAMPLE = JSON.stringify({
       name: "JSON Tool Online",
       version: "2.0.0",
-      tagline: "Format. Validate. Explore.",
       features: ["format", "minify", "validate", "tree", "diff", "escape"],
       author: { name: "Open Source", url: "https://github.com/FuGuiLiu/JsonToolOnline" },
       stats: { stars: 0, forks: 0, downloads: 12480 },
       runtime: { browser: true, server: false, offline: true },
-      tags: [
-        { id: 1, label: "developer-tool" },
-        { id: 2, label: "json" },
-        { id: 3, label: "utility" }
-      ],
+      tags: [{ id: 1, label: "developer-tool" }, { id: 2, label: "json" }, { id: 3, label: "utility" }],
       isActive: true,
       createdAt: "2026-05-21T00:00:00Z"
     }, null, 2);
@@ -762,6 +559,15 @@
         if (saved) return saved === 'dark';
         return window.matchMedia('(prefers-color-scheme: dark)').matches;
       });
+      const [lang, setLang] = useState(() => {
+        if (typeof window === 'undefined') return 'en';
+        const saved = localStorage.getItem('jt-lang');
+        if (saved && locales[saved]) return saved;
+        const nav = navigator.language || '';
+        return nav.startsWith('zh') ? 'zh' : 'en';
+      });
+      const t = locales[lang];
+
       const [tab, setTab] = useState('format');
       const [input, setInput] = useState('');
       const [output, setOutput] = useState('');
@@ -778,118 +584,90 @@
         localStorage.setItem('jt-theme', dark ? 'dark' : 'light');
       }, [dark]);
 
-      // clear messages when switching tabs
+      useEffect(() => {
+        localStorage.setItem('jt-lang', lang);
+        document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+      }, [lang]);
+
       useEffect(() => { setError(''); setSuccess(''); setOutput(''); }, [tab]);
 
+      const toggleLang = () => setLang(lang === 'en' ? 'zh' : 'en');
+
       const tabs = [
-        { id: 'format',   label: 'Format',   icon: I.braces },
-        { id: 'minify',   label: 'Minify',   icon: I.compress },
-        { id: 'validate', label: 'Validate', icon: I.shield },
-        { id: 'tree',     label: 'Tree',     icon: I.tree },
-        { id: 'diff',     label: 'Diff',     icon: I.diff },
-        { id: 'escape',   label: 'Escape',   icon: I.quote },
+        { id: 'format',   label: t.tabFormat,   icon: I.braces },
+        { id: 'minify',   label: t.tabMinify,   icon: I.compress },
+        { id: 'validate', label: t.tabValidate, icon: I.shield },
+        { id: 'tree',     label: t.tabTree,     icon: I.tree },
+        { id: 'diff',     label: t.tabDiff,     icon: I.diff },
+        { id: 'escape',   label: t.tabEscape,   icon: I.quote },
       ];
 
       const stats = useMemo(() => input ? jsonStats(input) : null, [input]);
 
-      const flash = (ok, msg) => {
-        if (ok) { setSuccess(msg); setError(''); }
-        else    { setError(msg);   setSuccess(''); }
-      };
+      const flash = (ok, msg) => { if (ok) { setSuccess(msg); setError(''); } else { setError(msg); setSuccess(''); } };
+
 
       const handleFormat = useCallback(() => {
-        try {
-          const r = formatJSON(input, indent);
-          setOutput(r);
-          flash(true, `Formatted with ${indent}-space indentation.`);
-        } catch (e) { flash(false, e.message); setOutput(''); }
-      }, [input, indent]);
+        try { const r = formatJSON(input, indent); setOutput(r); flash(true, t.formatSuccess(indent)); }
+        catch (e) { flash(false, e.message); setOutput(''); }
+      }, [input, indent, t]);
 
       const handleMinify = useCallback(() => {
-        try {
-          const r = minifyJSON(input);
-          setOutput(r);
-          const saved = input.length - r.length;
-          const pct = input.length ? Math.round((saved / input.length) * 100) : 0;
-          flash(true, `Minified — saved ${saved} characters (${pct}%).`);
-        } catch (e) { flash(false, e.message); setOutput(''); }
-      }, [input]);
+        try { const r = minifyJSON(input); setOutput(r); const saved = input.length - r.length; const pct = input.length ? Math.round((saved / input.length) * 100) : 0; flash(true, t.minifySuccess(saved, pct)); }
+        catch (e) { flash(false, e.message); setOutput(''); }
+      }, [input, t]);
 
       const handleValidate = useCallback(() => {
-        const r = validateJSON(input);
-        setOutput('');
-        if (r.valid) flash(true, 'Valid JSON — no syntax errors.');
-        else         flash(false, r.message);
-      }, [input]);
+        const r = validateJSON(input); setOutput('');
+        if (r.valid) flash(true, t.validateSuccess); else flash(false, r.message);
+      }, [input, t]);
 
       const handleEscape = useCallback(() => {
-        try {
-          setOutput(JSON.stringify(input));
-          flash(true, 'String escaped — ready to embed in JSON.');
-        } catch (e) { flash(false, e.message); setOutput(''); }
-      }, [input]);
+        try { setOutput(JSON.stringify(input)); flash(true, t.escapeSuccess); }
+        catch (e) { flash(false, e.message); setOutput(''); }
+      }, [input, t]);
 
       const handleUnescape = useCallback(() => {
-        try {
-          const r = JSON.parse(input);
-          setOutput(typeof r === 'string' ? r : JSON.stringify(r, null, 2));
-          flash(true, 'Successfully unescaped.');
-        } catch (e) { flash(false, e.message); setOutput(''); }
-      }, [input]);
+        try { const r = JSON.parse(input); setOutput(typeof r === 'string' ? r : JSON.stringify(r, null, 2)); flash(true, t.unescapeSuccess); }
+        catch (e) { flash(false, e.message); setOutput(''); }
+      }, [input, t]);
 
-      const handleCopy = (text) => {
-        copyText(text);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1800);
-      };
-
-      const handleDownload = (text) => {
-        const blob = new Blob([text], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url; a.download = 'data.json'; a.click();
-        URL.revokeObjectURL(url);
-      };
-
-      const handleUpload = (e) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => setInput(String(ev.target.result || ''));
-        reader.readAsText(file);
-        e.target.value = '';
-      };
-
+      const handleCopy = (text) => { copyText(text); setCopied(true); setTimeout(() => setCopied(false), 1800); };
+      const handleDownload = (text) => { const blob = new Blob([text], { type: 'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'data.json'; a.click(); URL.revokeObjectURL(url); };
+      const handleUpload = (e) => { const file = e.target.files?.[0]; if (!file) return; const reader = new FileReader(); reader.onload = (ev) => setInput(String(ev.target.result || '')); reader.readAsText(file); e.target.value = ''; };
       const loadSample = () => setInput(SAMPLE);
-      const clearAll  = () => { setInput(''); setOutput(''); setError(''); setSuccess(''); };
+      const clearAll = () => { setInput(''); setOutput(''); setError(''); setSuccess(''); };
 
       const result = output;
       const hasResult = !!result;
 
-      // primary action button per tab
       const primaryAction = {
-        format:   { label: 'Format JSON',  fn: handleFormat },
-        minify:   { label: 'Minify JSON',  fn: handleMinify },
-        validate: { label: 'Validate',     fn: handleValidate },
-        escape:   { label: 'Escape',       fn: handleEscape },
+        format:   { label: t.formatJson,  fn: handleFormat },
+        minify:   { label: t.minifyJson,  fn: handleMinify },
+        validate: { label: t.validate,    fn: handleValidate },
+        escape:   { label: t.escape,      fn: handleEscape },
       }[tab];
 
+
       return (
-        <>
+        <I18nContext.Provider value={{ t, lang, setLang }}>
           <div className="ambient" />
 
-          {/* ───────── Navbar ───────── */}
+          {/* Navbar */}
           <nav className="navbar">
             <div className="container navbar-inner">
               <a href="#" className="brand">
                 <span className="brand-mark">{'{}'}</span>
                 <span>JSON Tool</span>
-                <span className="badge" style={{ marginLeft: 4 }}>online</span>
+                <span className="badge" style={{ marginLeft: 4 }}>{t.online}</span>
               </a>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                <button className="lang-toggle" onClick={toggleLang} title="Switch language">
+                  {I.globe} {lang === 'en' ? '中文' : 'EN'}
+                </button>
                 <a className="btn btn-ghost btn-sm" href="https://github.com/FuGuiLiu/JsonToolOnline" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', gap: 6 }}>
                   <Icon size={14} d={<path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.1.79-.25.79-.56v-2.16c-3.2.7-3.88-1.36-3.88-1.36-.52-1.32-1.27-1.67-1.27-1.67-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.02 1.74 2.68 1.24 3.34.95.1-.74.4-1.24.72-1.53-2.55-.29-5.23-1.27-5.23-5.65 0-1.25.45-2.27 1.18-3.07-.12-.29-.51-1.46.11-3.04 0 0 .96-.31 3.15 1.17a10.95 10.95 0 0 1 5.74 0c2.19-1.48 3.15-1.17 3.15-1.17.62 1.58.23 2.75.11 3.04.74.8 1.18 1.82 1.18 3.07 0 4.39-2.69 5.36-5.25 5.64.41.36.78 1.05.78 2.13v3.16c0 .31.21.67.8.56C20.21 21.39 23.5 17.08 23.5 12 23.5 5.65 18.35.5 12 .5z" fill="currentColor" stroke="none"/>} />
-                  GitHub
+                  {t.github}
                 </a>
                 <button className="btn btn-icon" onClick={() => setDark(!dark)} aria-label="Toggle theme">
                   {dark ? I.sun : I.moon}
@@ -898,34 +676,23 @@
             </div>
           </nav>
 
-          {/* ───────── Hero ───────── */}
+          {/* Hero */}
           <section className="container" style={{ position: 'relative', zIndex: 1, padding: '80px 32px 56px', textAlign: 'center' }}>
-            <div className="badge" style={{ marginBottom: 20 }}>
-              {I.sparkles} 100% in-browser · No data uploaded
-            </div>
+            <div className="badge" style={{ marginBottom: 20 }}>{I.sparkles} {t.badgeText}</div>
             <h1 className="display" style={{ marginBottom: 20 }}>
-              The JSON toolkit,<br />
-              <span className="accent">designed for clarity.</span>
+              {t.heroTitle1}<br /><span className="accent">{t.heroTitle2}</span>
             </h1>
-            <p className="lead">
-              Format, validate, minify, explore, and diff JSON — all in one calm,
-              fast workspace that runs entirely in your browser.
-            </p>
+            <p className="lead">{t.heroDesc}</p>
           </section>
 
-          {/* ───────── Workspace ───────── */}
+
+          {/* Workspace */}
           <section className="container" style={{ position: 'relative', zIndex: 1, paddingBottom: 32 }}>
-            {/* Tabs row */}
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
               <div className="tabs" role="tablist">
-                {tabs.map(t => (
-                  <button key={t.id}
-                    role="tab"
-                    aria-selected={tab === t.id}
-                    className="tab"
-                    onClick={() => setTab(t.id)}>
-                    {t.icon}
-                    <span>{t.label}</span>
+                {tabs.map(tb => (
+                  <button key={tb.id} role="tab" aria-selected={tab === tb.id} className="tab" onClick={() => setTab(tb.id)}>
+                    {tb.icon} <span>{tb.label}</span>
                   </button>
                 ))}
               </div>
@@ -934,152 +701,86 @@
             <div className="card fade-in" key={tab} style={{ padding: 24 }}>
               {/* Toolbar */}
               <div className="toolbar" style={{ marginBottom: 16 }}>
-                {primaryAction && (
-                  <button className="btn btn-primary" onClick={primaryAction.fn}>
-                    {I.sparkles} {primaryAction.label}
-                  </button>
-                )}
+                {primaryAction && <button className="btn btn-primary" onClick={primaryAction.fn}>{I.sparkles} {primaryAction.label}</button>}
                 {tab === 'format' && (
                   <select className="select" value={indent} onChange={(e) => setIndent(Number(e.target.value))}>
-                    <option value={2}>2 spaces</option>
-                    <option value={4}>4 spaces</option>
-                    <option value={8}>Tab (8)</option>
+                    <option value={2}>{t.spaces2}</option>
+                    <option value={4}>{t.spaces4}</option>
+                    <option value={8}>{t.tab8}</option>
                   </select>
                 )}
-                {tab === 'escape' && (
-                  <button className="btn btn-outline" onClick={handleUnescape}>Unescape</button>
-                )}
-
+                {tab === 'escape' && <button className="btn btn-outline" onClick={handleUnescape}>{t.unescape}</button>}
                 <div className="toolbar-spacer" />
-
-                <button className="btn btn-ghost btn-sm" onClick={loadSample}>
-                  {I.sparkles} Sample
-                </button>
+                <button className="btn btn-ghost btn-sm" onClick={loadSample}>{I.sparkles} {t.sample}</button>
                 <label className="btn btn-ghost btn-sm" style={{ cursor: 'pointer' }}>
-                  {I.upload} Import
+                  {I.upload} {t.import_}
                   <input ref={fileInputRef} type="file" accept=".json,.txt,application/json" onChange={handleUpload} style={{ display: 'none' }} />
                 </label>
                 {(hasResult || input) && (
                   <>
-                    <button className="btn btn-ghost btn-sm" onClick={() => handleCopy(result || input)}>
-                      {copied ? I.check : I.copy} {copied ? 'Copied' : 'Copy'}
-                    </button>
-                    <button className="btn btn-ghost btn-sm" onClick={() => handleDownload(result || input)}>
-                      {I.download} Export
-                    </button>
+                    <button className="btn btn-ghost btn-sm" onClick={() => handleCopy(result || input)}>{copied ? I.check : I.copy} {copied ? t.copied : t.copy}</button>
+                    <button className="btn btn-ghost btn-sm" onClick={() => handleDownload(result || input)}>{I.download} {t.export_}</button>
                   </>
                 )}
-                {input && (
-                  <button className="btn btn-ghost btn-sm" onClick={clearAll} aria-label="Clear">
-                    {I.trash}
-                  </button>
-                )}
+                {input && <button className="btn btn-ghost btn-sm" onClick={clearAll} aria-label="Clear">{I.trash}</button>}
               </div>
 
               {/* Stats */}
               {input && stats && tab !== 'diff' && (
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
-                  <span className="stat-pill">type <strong>{stats.type}</strong></span>
-                  <span className="stat-pill">nodes <strong>{stats.nodes}</strong></span>
-                  <span className="stat-pill">size <strong>{formatBytes(stats.size)}</strong></span>
-                  <span className="stat-pill">chars <strong>{input.length.toLocaleString()}</strong></span>
+                  <span className="stat-pill">{t.type} <strong>{stats.type}</strong></span>
+                  <span className="stat-pill">{t.nodes} <strong>{stats.nodes}</strong></span>
+                  <span className="stat-pill">{t.size} <strong>{formatBytes(stats.size)}</strong></span>
+                  <span className="stat-pill">{t.chars} <strong>{input.length.toLocaleString()}</strong></span>
                 </div>
               )}
 
               {/* Status */}
-              {error && (
-                <div className="alert alert-error fade-in" style={{ marginBottom: 16 }}>
-                  {I.x} <span style={{ flex: 1 }}>{error}</span>
-                </div>
-              )}
-              {success && !error && (
-                <div className="alert alert-success fade-in" style={{ marginBottom: 16 }}>
-                  {I.check2} <span style={{ flex: 1 }}>{success}</span>
-                </div>
-              )}
+              {error && <div className="alert alert-error fade-in" style={{ marginBottom: 16 }}>{I.x} <span style={{ flex: 1 }}>{error}</span></div>}
+              {success && !error && <div className="alert alert-success fade-in" style={{ marginBottom: 16 }}>{I.check2} <span style={{ flex: 1 }}>{success}</span></div>}
+
 
               {/* Workspace body */}
               {tab === 'diff' ? (
                 <>
                   <div className="grid-split" style={{ marginBottom: 16 }}>
                     <div>
-                      <div className="field-label">Source A</div>
-                      <textarea
-                        className="json-input mono"
-                        value={diffLeft}
-                        onChange={(e) => setDiffLeft(e.target.value)}
-                        placeholder='{"key": "original"}'
-                        spellCheck={false}
-                        style={{ minHeight: 240 }}
-                      />
+                      <div className="field-label">{t.sourceA}</div>
+                      <textarea className="json-input mono" value={diffLeft} onChange={(e) => setDiffLeft(e.target.value)} placeholder={t.placeholderOriginal} spellCheck={false} style={{ minHeight: 240 }} />
                     </div>
                     <div>
-                      <div className="field-label">Source B</div>
-                      <textarea
-                        className="json-input mono"
-                        value={diffRight}
-                        onChange={(e) => setDiffRight(e.target.value)}
-                        placeholder='{"key": "modified"}'
-                        spellCheck={false}
-                        style={{ minHeight: 240 }}
-                      />
+                      <div className="field-label">{t.sourceB}</div>
+                      <textarea className="json-input mono" value={diffRight} onChange={(e) => setDiffRight(e.target.value)} placeholder={t.placeholderModified} spellCheck={false} style={{ minHeight: 240 }} />
                     </div>
                   </div>
-                  {diffLeft && diffRight && (
-                    <div className="fade-in">
-                      <div className="field-label">Differences</div>
-                      <JSONDiff left={diffLeft} right={diffRight} />
-                    </div>
-                  )}
+                  {diffLeft && diffRight && <div className="fade-in"><div className="field-label">{t.differences}</div><JSONDiff left={diffLeft} right={diffRight} /></div>}
                 </>
               ) : tab === 'tree' ? (
                 <div className="grid-split">
                   <div>
-                    <div className="field-label">Input</div>
-                    <textarea
-                      className="json-input mono"
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      placeholder="Paste your JSON here…"
-                      spellCheck={false}
-                    />
+                    <div className="field-label">{t.input}</div>
+                    <textarea className="json-input mono" value={input} onChange={(e) => setInput(e.target.value)} placeholder={t.placeholderJson} spellCheck={false} />
                   </div>
                   <div>
-                    <div className="field-label">Tree explorer</div>
+                    <div className="field-label">{t.treeExplorer}</div>
                     <div className="json-output tree">
                       {input.trim() ? (() => {
-                        try {
-                          const parsed = JSON.parse(input);
-                          return <TreeNode name={null} value={parsed} depth={0} defaultOpen={true} />;
-                        } catch (e) {
-                          return <div className="alert alert-error">{I.x} <span>{e.message}</span></div>;
-                        }
-                      })() : (
-                        <div style={{ color: 'var(--ink-40)', fontSize: 13 }}>Enter JSON on the left to explore its structure.</div>
-                      )}
+                        try { return <TreeNode name={null} value={JSON.parse(input)} depth={0} defaultOpen={true} />; }
+                        catch (e) { return <div className="alert alert-error">{I.x} <span>{e.message}</span></div>; }
+                      })() : <div style={{ color: 'var(--ink-40)', fontSize: 13 }}>{t.treeEmpty}</div>}
                     </div>
                   </div>
                 </div>
               ) : (
                 <div className="grid-split">
                   <div>
-                    <div className="field-label">Input</div>
-                    <textarea
-                      className="json-input mono"
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      placeholder={tab === 'escape' ? 'Enter a string to escape, or escaped JSON to unescape…' : 'Paste your JSON here…'}
-                      spellCheck={false}
-                    />
+                    <div className="field-label">{t.input}</div>
+                    <textarea className="json-input mono" value={input} onChange={(e) => setInput(e.target.value)} placeholder={tab === 'escape' ? t.placeholderEscape : t.placeholderJson} spellCheck={false} />
                   </div>
                   <div>
                     <div className="field-label">
-                      Output
-                      {hasResult && (
-                        <span className="stat-pill" style={{ marginLeft: 'auto' }}>
-                          {result.length.toLocaleString()} chars
-                        </span>
-                      )}
+                      {t.output}
+                      {hasResult && <span className="stat-pill" style={{ marginLeft: 'auto' }}>{result.length.toLocaleString()} {t.chars}</span>}
                     </div>
                     {hasResult ? (
                       <pre className="json-output mono">{result}</pre>
@@ -1087,9 +788,7 @@
                       <div className="json-output" style={{ display: 'grid', placeItems: 'center', color: 'var(--ink-40)' }}>
                         <div style={{ textAlign: 'center', maxWidth: 280 }}>
                           <div style={{ marginBottom: 8, color: 'var(--blue)', display: 'inline-flex' }}>{I.sparkles}</div>
-                          <div style={{ fontSize: 13.5, lineHeight: 1.5 }}>
-                            Your output appears here. Press <strong style={{ color: 'var(--ink-65)' }}>{primaryAction?.label || 'the action'}</strong> to begin.
-                          </div>
+                          <div style={{ fontSize: 13.5, lineHeight: 1.5 }}>{t.outputEmpty(primaryAction?.label || '')}</div>
                         </div>
                       </div>
                     )}
@@ -1099,22 +798,21 @@
             </div>
           </section>
 
-          {/* ───────── Features ───────── */}
+
+          {/* Features */}
           <section className="container" style={{ paddingTop: 56, paddingBottom: 24 }}>
             <div style={{ textAlign: 'center', marginBottom: 40 }}>
-              <h2 style={{ fontSize: 'clamp(28px, 4vw, 36px)', fontWeight: 600, letterSpacing: '-0.025em', color: 'var(--ink)', marginBottom: 12 }}>
-                Everything you need, nothing you don't.
-              </h2>
-              <p className="lead">A focused toolkit, refined for daily use.</p>
+              <h2 style={{ fontSize: 'clamp(28px, 4vw, 36px)', fontWeight: 600, letterSpacing: '-0.025em', color: 'var(--ink)', marginBottom: 12 }}>{t.featuresTitle}</h2>
+              <p className="lead">{t.featuresDesc}</p>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
               {[
-                { icon: I.braces,   title: 'Pretty format',     desc: 'Beautify JSON with 2, 4, or 8-space indentation. Instantly readable.' },
-                { icon: I.compress, title: 'Minify',            desc: 'Strip whitespace and shrink payloads — ideal for production transport.' },
-                { icon: I.shield,   title: 'Strict validation', desc: 'Catch syntax errors with clear, line-aware messages.' },
-                { icon: I.tree,     title: 'Tree explorer',     desc: 'Navigate deeply nested structures with collapsible branches.' },
-                { icon: I.diff,     title: 'Diff compare',      desc: 'Spot every added, removed, or changed key between two payloads.' },
-                { icon: I.quote,    title: 'Escape / unescape', desc: 'Safely embed strings in JSON, or recover them back into plain text.' },
+                { icon: I.braces,   title: t.feat1Title, desc: t.feat1Desc },
+                { icon: I.compress, title: t.feat2Title, desc: t.feat2Desc },
+                { icon: I.shield,   title: t.feat3Title, desc: t.feat3Desc },
+                { icon: I.tree,     title: t.feat4Title, desc: t.feat4Desc },
+                { icon: I.diff,     title: t.feat5Title, desc: t.feat5Desc },
+                { icon: I.quote,    title: t.feat6Title, desc: t.feat6Desc },
               ].map((f, i) => (
                 <div key={i} className="feature">
                   <div className="feature-icon">{f.icon}</div>
@@ -1125,7 +823,7 @@
             </div>
           </section>
 
-          {/* ───────── Footer ───────── */}
+          {/* Footer */}
           <footer className="footer">
             <div className="container">
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 8 }}>
@@ -1133,12 +831,12 @@
                 <span style={{ color: 'var(--ink-82)', fontWeight: 500 }}>JSON Tool</span>
               </div>
               <p>
-                Runs entirely in your browser · No tracking · No uploads ·{' '}
-                <a href="https://github.com/FuGuiLiu/JsonToolOnline" target="_blank" rel="noopener noreferrer">View on GitHub</a>
+                {t.footerText} ·{' '}
+                <a href="https://github.com/FuGuiLiu/JsonToolOnline" target="_blank" rel="noopener noreferrer">{t.footerLink}</a>
               </p>
             </div>
           </footer>
-        </>
+        </I18nContext.Provider>
       );
     }
 
